@@ -1,2 +1,2 @@
 crawl:
-	python ./crawler/crawl_news.py
+	python3 ./crawler/crawl_news.py
