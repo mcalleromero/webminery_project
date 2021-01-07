@@ -14,13 +14,13 @@ def crawl():
     crawler.start()
 
     today = date.today().strftime("%d-%m-%Y")
-
-    # f = open(f"./data/guardian_news_{today}.txt", "w")
+    
+    # f = open(f"./data/guardian_news_{today}.txt", "w", encoding='utf-8')
     # for title, val in GuardianSpider.dict_text_.items():
     #     f.write(f'{title}:\t{val}\n')
     # f.close()
 
-    f = open(f"./data/upworthy_news_{today}.txt", "w")
+    f = open(f"./data/upworthy_news_{today}.txt", "w", encoding='utf-8')
     for title, val in UpWorthySpider.dict_text_.items():
         f.write(f'{title}:\t{val}\n')
     f.close()
