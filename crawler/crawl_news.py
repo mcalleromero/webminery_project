@@ -20,9 +20,9 @@ def crawl():
 
     f = open(f"guardian_news_{today}.txt", "w", encoding='utf-8')
     for title, val in GuardianSpider.dict_text_.items():
-        text = ''.join(val)
+        text = ' '.join(val)
         if text != '':
-            f.write(f'{title}:\t{text}\n')
+            f.write(f'{title}\t{text}\n')
     f.close()
 
     print(f'El crawler de The Guardian ha tardado: {endtime_guardian} segundos')
