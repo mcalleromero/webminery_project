@@ -2,10 +2,9 @@ import urllib.robotparser
 import time
 import scrapy
 
-class BuzzFeedSpider(scrapy.Spider):
-    name = 'BuzzFeedSpider'
-    starting_url_ = "https://www.buzzfeed.com/"
-    n_jobs = 8
+class UpWorthySpider(scrapy.Spider):
+    name = 'UpWorthySpider'
+    starting_url_ = "https://www.upworthy.com/"
     sections_ = []
     dict_ = {}
     dict_text_ = {}
@@ -28,7 +27,7 @@ class BuzzFeedSpider(scrapy.Spider):
         self.rp.read()
 
         self.sections_.append(self.starting_url_)
-        self.sections_ += response.xpath('//a[contains(@class, "js-card__link")]/@href').extract()
+        self.sections_ += response.xpath('//a[contains(@class, "headline")]/@href').extract()
 
         for url in self.sections_:
             if url not in self.visited_ and self.rp.can_fetch("*", url):
@@ -42,6 +41,6 @@ class BuzzFeedSpider(scrapy.Spider):
         """
         # time.sleep(1)
         self.visited_.add(response.url)
-        title = response.xpath('//h1[contains(@class,"title")]/text()').extract_first().strip("\n")
-        self.dict_text_[title] = response.xpath('//div[contains(@itemprop, "articleBody")]//p//text()').extract()
+        title = response.xpath('//a[contains(@class, "headline")]/text()').extract_first().strip(" \t\n")
+        self.dict_text_[title] = response.xpath('//div[contains(@class, "body-description")]//p//text()').extract()
         self.dict_[title] = response.url
