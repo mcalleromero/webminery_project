@@ -2,9 +2,9 @@ import urllib.robotparser
 import time
 import scrapy
 
-class GuardianSpider(scrapy.Spider):
-    name = 'GuardianSpider'
-    starting_url_ = "https://www.theguardian.com/world/europe-news"
+class ViralStoriesSpider(scrapy.Spider):
+    name = 'ViralStoriesSpider'
+    starting_url_ = "http://viralstories.in/"
     sections_ = []
     dict_ = {}
     dict_text_ = {}
@@ -27,8 +27,7 @@ class GuardianSpider(scrapy.Spider):
         self.rp.read()
 
         self.sections_.append(self.starting_url_)
-        self.sections_ += response.xpath('/html/body/div[1]/header/nav[@aria-label="Guardian sections"]/ul//li/a/@href').extract()
-        self.sections_ += response.xpath('//a[contains(@class, "subnav-link")]/@href').extract()
+        self.sections_ += response.xpath('//li[contains(@class, "menu-item")]//a/@href').extract()
 
         for url in self.sections_:
             if url not in self.visited_ and self.rp.can_fetch("*", url):
@@ -44,7 +43,7 @@ class GuardianSpider(scrapy.Spider):
             response.follow(): Continuacion del parse para el titulo y texto de cada noticia.
         """
         self.visited_.add(response.url)
-        news = response.xpath('//a[contains(@class, "u-faux-block-link__overlay")]/@href').extract()
+        news = response.xpath('//h2[contains(@class, "title")]//a/@href').extract()
         for url in news:
             if url not in self.visited_ and self.rp.can_fetch("*", url):
                 yield response.follow(url = url, callback = self.parse_content)
@@ -57,6 +56,6 @@ class GuardianSpider(scrapy.Spider):
         """
         # time.sleep(1)
         self.visited_.add(response.url)
-        title = response.xpath('//h1[contains(@class,"content__headline")]/text()').extract_first().strip("\n")
-        self.dict_text_[title] = response.xpath('//div[contains(@itemprop, "articleBody")]//p//text()').extract()
+        title = response.xpath('//h1[contains(@class,"title")]/text()').extract_first().strip("\n")
+        self.dict_text_[title] = response.xpath('//div[contains(@class, "post-single-content box mark-links")]//p//text()').extract()
         self.dict_[title] = response.url
