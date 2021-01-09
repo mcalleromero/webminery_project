@@ -17,14 +17,14 @@ def crawl():
 
     today = date.today().strftime("%d-%m-%Y")
     
-    f = open(f"./data/guardian_news_{today}.txt", "w", encoding='utf-8')
+    f = open(f"../data/guardian_news_{today}.txt", "w", encoding='utf-8')
     for title, val in GuardianSpider.dict_text_.items():
         text = ' '.join(val)
         if text != '':
             f.write(f'{title}:\t{text}\n')
     f.close()
 
-    f = open(f"./data/upworthy_news_{today}.txt", "w", encoding='utf-8')
+    f = open(f"../data/upworthy_news_{today}.txt", "w", encoding='utf-8')
     for title, val in UpWorthySpider.dict_text_.items():
         text = ' '.join(val).replace('\n        ', '').replace('\n', '')
         text = re.sub(r' +', ' ', text)
@@ -32,7 +32,7 @@ def crawl():
             f.write(f'{title}:\t{text}\n')
     f.close()
 
-    f = open(f"./data/viralstories_news_{today}.txt", "w", encoding='utf-8')
+    f = open(f"../data/viralstories_news_{today}.txt", "w", encoding='utf-8')
     for title, val in ViralStoriesSpider.dict_text_.items():
         text = ' '.join(val).replace('\n', '')
         text = re.sub(r' +', ' ', text)
