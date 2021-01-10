@@ -6,19 +6,20 @@ import pandas as pd
 
 from data_preprocessing import Preprocessing
 
-DATA = Path('data')
+DATA = Path('../data')
 
 if __name__ == "__main__":
     today = date.today().strftime("%d-%m-%Y")
     filename = f'title_dataset_{today}.csv'
-    final_file_path = DATA / Path(filename)
+    final_file_path = DATA / filename
 
     preprocess = Preprocessing()
 
     news = {}
 
-    for file in Path('data').glob('*.txt'):
-        with open(file, 'w+') as f:
+    for file in DATA.glob('*.txt'):
+        print(file)
+        with open(file, 'r', encoding='utf-8') as f:
             for line in f:
                 title = line.split(':\t')[0]
 
