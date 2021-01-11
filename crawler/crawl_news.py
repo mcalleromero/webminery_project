@@ -19,7 +19,7 @@ def crawl():
     
     f = open(f"../data/guardian_news_{today}.txt", "w", encoding='utf-8')
     for title, val in GuardianSpider.dict_text_.items():
-        text = ' '.join(val)
+        text = ' '.join(val).replace('\n', '')
         if text != '':
             f.write(f'{title}:\t{text}\n')
     f.close()

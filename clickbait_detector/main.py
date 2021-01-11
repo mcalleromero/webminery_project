@@ -1,16 +1,36 @@
 
+import pandas as pd
+from datetime import date
+from pathlib import Path
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import MultinomialNB
+from sklearn import metrics
 
-from data_preprocessing import Preprocessing
-
+DATA = Path('../data')
 
 if __name__ == "__main__":
-    title = 'One woman’s quest to unite the diverse Hispanic community is also helping battling COVID-19!'
-    p = Preprocessing()
-    print(title)
-    print(f"Count_words: {p.count_words(title)}")
-    print(f"Question: {p.has_question(title)}")
-    print(f"Exclamation: {p.has_exclamation(title)}")
-    print(f"Starts with num: {p.starts_with_num(title)}")
-    print(f"Contains num: {p.contains_num(title)}")
-    print(f"Parenthesis: {p.has_parenthesis(title)}")
-    print(f"Clean: {p.clean_text(title, tokenization=True)}")
+    today = date.today().strftime("%d-%m-%Y")
+    filename = f'title_dataset_{today}.csv'
+    final_file_path = DATA / filename
+    data = pd.read_csv(final_file_path)
+    
+
+    df = data.sample(frac=1).reset_index(drop=True)
+    
+    df_train = df.head(int(len(df) * 0.66))
+    df_test = df.tail(int(len(df) * 0.33))
+    
+    X_train = df_train.drop(columns='label')
+    y_train = df_train['label']
+
+    X_test = df_test.drop(columns='label')
+    y_test = df_test['label']
+
+    #clf = RandomForestClassifier()
+    clf = MultinomialNB()
+
+    clf.fit(X_train, y_train)
+    
+    preds = clf.predict_proba(X_test)
+
+    print(f'ROC_AUC: {metrics.roc_auc_score(y_test, preds[:,1])}')

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     preprocess = Preprocessing()
 
     news = {}
-
+    contador = 0
     for file in DATA.glob('*.txt'):
         print(file)
         with open(file, 'r', encoding='utf-8') as f:
@@ -29,12 +29,13 @@ if __name__ == "__main__":
                 starts_num = preprocess.starts_with_num(title)
                 contains_num = preprocess.contains_num(title)
                 parenthesis = preprocess.has_parenthesis(title)
-                clean_title = preprocess.clean_text(title, tokenization=True)
+                #clean_title = preprocess.clean_text(title, tokenization=True)
 
-                label = 'clickbait'
-                if os.path.basename(file.name).split('_')[0] is "guardian":
-                    label = 'veridic'
+                label = 1 #Clickbait
+                if os.path.basename(file.name).split('_')[0] == "guardian":
+                    label = 0 #Veridic
 
-                news[clean_title] = [nwords, question, exclamation, starts_num, contains_num, parenthesis, label]
+                news[contador] = [nwords, question, exclamation, starts_num, contains_num, parenthesis, label]
+                contador+=1
 
-    pd.DataFrame(news).to_csv(final_file_path, index=False)
+    pd.DataFrame.from_dict(news, orient='index', columns=['nword', 'question', 'exclamation', 'starts_num', 'contains_num', 'parenthesis', 'label' ]).to_csv(final_file_path, index=False)
