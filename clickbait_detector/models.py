@@ -5,7 +5,7 @@ from sklearn.tree import DecisionTreeClassifier
 
 from skopt import BayesSearchCV
 
-class Model():
+class SyntheticTextClassifier():
     models = {
         'rf': (
             RandomForestClassifier(), 
