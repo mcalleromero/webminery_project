@@ -8,7 +8,8 @@ class Preprocessing:
         return len(title.split(" "))
 
     def has_question(self, title):
-        if "?" in title or title.startswith(('who','what','where','why','when','whose','whom','would','will','how','which','should','could','did','do')):
+        title = title.lower()
+        if "?" in title or title.startswith(('who','what','where','why','when','whose','whom','would','will','how','which','should','could','did','do', 'all')):
             return 1
         else:
             return 0

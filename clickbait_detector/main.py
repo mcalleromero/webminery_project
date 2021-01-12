@@ -1,12 +1,18 @@
+from pathlib import Path
+from datetime import date
+from tqdm import tqdm
+
 import numpy as np
 import pandas as pd
-from datetime import date
-from pathlib import Path
+
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
 from sklearn.model_selection import StratifiedKFold
 from sklearn.dummy import DummyClassifier
+
+from models import SyntheticTextClassifier
 
 DATA = Path('../data')
 
@@ -18,7 +24,7 @@ if __name__ == "__main__":
     
     #MODELS    
     #DUMMY CLASSIFIER
-    clf = DummyClassifier(strategy='most_frequent')
+    #clf = DummyClassifier(strategy='most_frequent')
     #RANDOM FOREST
     #clf = RandomForestClassifier()
     #NAIVE BAYES
@@ -35,15 +41,18 @@ if __name__ == "__main__":
 
     auc_roc = []
 
-    for train_index, test_index in skf.split(X, y):
-        X_train, X_test = X.loc[train_index], X.loc[test_index]
-        y_train, y_test = y.loc[train_index], y.loc[test_index]
+    classifier = SyntheticTextClassifier()
 
-        clf.fit(X_train, y_train)
-    
-        preds = clf.predict_proba(X_test)
+    for clf in tqdm(classifier.models):
+        for train_index, test_index in skf.split(X, y):
+            X_train, X_test = X.loc[train_index], X.loc[test_index]
+            y_train, y_test = y.loc[train_index], y.loc[test_index]
 
-        auc_roc.append(metrics.roc_auc_score(y_test, preds[:,1]))
+            # Hay que probar que funcione porque no me fio de nuestra capacidad de hacer que las cosas funcionen
+            classifier.fit(X_train, y_train, clf)
+            preds = classifier.predict_proba(X_test)
+
+            auc_roc.append(metrics.roc_auc_score(y_test, preds[:,1]))
 
     print(auc_roc)
     print(f'ROC_AUC_mean: {np.mean(auc_roc)}')
