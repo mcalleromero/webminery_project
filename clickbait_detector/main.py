@@ -50,8 +50,10 @@ if __name__ == "__main__":
 
     classifier = SyntheticTextClassifier()
 
-    params = open("../data/params.txt", "w+")
-    params.write(f'name,params,auc,accuracy,precision,f1_score,recall,log_loss')
+    paramsFile = open("../data/params2.csv", "w+")
+    metricsFile = open("../data/metrics2.csv", "w+")
+    paramsFile.write(f'name,params\n')
+    metricsFile.write(f'name,auc,accuracy,precision,f1_score,recall,log_loss\n')
 
     for clf_name in tqdm(classifier.models):
         clf = classifier.fit(X_train, y_train, clf_name)
@@ -65,6 +67,7 @@ if __name__ == "__main__":
         #     # Hay que probar que funcione porque no me fio de nuestra capacidad de hacer que las cosas funcionen
         #     classifier.fit(X_train, y_train, clf)
         #     preds = classifier.predict_proba(X_test)
+
         auc = metrics.roc_auc_score(y_test, preds_proba[:,1])
         accuracy = metrics.accuracy_score(y_test, preds)
         precision = metrics.precision_score(y_test, preds)
@@ -72,10 +75,11 @@ if __name__ == "__main__":
         recall = metrics.recall_score(y_test, preds)
         log_loss = metrics.log_loss(y_test, preds_proba[:,1])
 
-        print(auc)
-        params.write(f'{clf_name},{clf.get_params()},{auc},{accuracy},{precision},{f1_score},{recall},{log_loss}\n')
+        paramsFile.write(f'{clf_name},{clf.get_params()["estimator"]}\n')
+        metricsFile.write(f'{clf_name},{auc},{accuracy},{precision},{f1_score},{recall},{log_loss}\n')
     
-    params.close()
+    paramsFile.close()
+    metricsFile.close()
 
     # print(auc_roc)
     # print(f'ROC_AUC_mean: {np.mean(auc_roc)}')

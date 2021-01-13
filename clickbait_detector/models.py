@@ -1,7 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore")
 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, AdaBoostClassifier
 from xgboost import XGBClassifier
 from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
@@ -10,6 +10,28 @@ from skopt import BayesSearchCV
 
 class SyntheticTextClassifier:
     models = {
+        'gradientboosting': (
+            GradientBoostingClassifier(), 
+            {
+                'n_estimators': Integer(1, 501),
+                'loss': Categorical(['deviance', 'exponential']),
+                'learning_rate': Real(1e-6, 1e+1, prior='log-uniform'),
+                'criterion': Categorical(['friedman_mse', 'mse', 'mae']),
+                'min_samples_leaf': Integer(1,10),
+                'min_weight_fraction_leaf': Real(1e-6, 0.5, prior='log-uniform'),
+                'max_depth': Integer(3,10),
+                'max_features': Categorical(['auto', 'sqrt', 'log2']),
+                'min_impurity_decrease': Real(1e-6, 1e+1, prior='log-uniform'),
+            }
+        ),
+        'adaboost': (
+            AdaBoostClassifier(), 
+            {
+                'n_estimators': Integer(1, 501),
+                'learning_rate': Real(1e-6, 1e+1, prior='log-uniform'),
+                'algorithm': Categorical(['SAMME', 'SAMME.R']),
+            }
+        ),
         'xgboost': (
             XGBClassifier(),
             {
@@ -59,6 +81,7 @@ class SyntheticTextClassifier:
                 'min_samples_leaf': Integer(1,10),
             }
         ),
+        
     }
 
     def fit(self, X_train, y_train, model):
