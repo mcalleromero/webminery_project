@@ -1,5 +1,6 @@
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+import pandas as pd
 import spacy
 
 class Preprocessing:
@@ -38,20 +39,9 @@ class Preprocessing:
         else:
             return 0
 
-    def clean_text(self, title, tokenization=False):
-        title = title.lower()
-        if tokenization:
-            nlp = spacy.load('en_core_web_sm')
-            doc = nlp(title)
-            title = ' '.join([token.lemma_ for token in doc if token.lemma_.isalpha()])
-        else:
-            title = title.replace('.', '').replace(',', '').replace(';', '').replace(':', '').replace("'", '').replace('"', '').replace('-', '').replace('/', '').replace('*', '').replace('+', '').replace('[', '').replace(']', '').replace('{', '').replace('}', '').replace('’', '').replace('!', '').replace('?', '').replace('=', '')
-
-        stopWords = set(stopwords.words("english"))
+    def num_stop_words(self, title):
         text_tokens = word_tokenize(title)
-        title = ' '.join([word for word in text_tokens if word not in stopwords.words()])
-
-        return title
+        return sum([(word in stopwords.words()) for word in text_tokens])
 
     def fit_transform(self, title):
         nwords = self.count_words(title)
@@ -60,5 +50,6 @@ class Preprocessing:
         starts_num = self.starts_with_num(title)
         contains_num = self.contains_num(title)
         parenthesis = self.has_parenthesis(title)
+        num_stop_words = self.num_stop_words(title)
 
-        return pd.DataFrame({'nword': nwords, 'question': question, 'exclamation': exclamation, 'starts_num': starts_num, 'contains_num': contains_num, 'parenthesis': parenthesis,})
+        return pd.DataFrame({'nword': nwords, 'question': question, 'exclamation': exclamation, 'starts_num': starts_num, 'contains_num': contains_num, 'parenthesis': parenthesis, 'num_stop_wrods': num_stop_words,}, index=[0])

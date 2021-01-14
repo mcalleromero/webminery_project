@@ -20,7 +20,6 @@ def evaluate():
 
     f.close()
 
-
 def create_frequency_table(text_string):
     stopWords = set(stopwords.words("english"))
     words = word_tokenize(text_string)
@@ -72,7 +71,6 @@ def generate_summary(sentences, sentenceValue, threshold):
             sentence_count += 1
 
     return summary
-
 
 def summarize(text):
     freqTable = create_frequency_table(text)

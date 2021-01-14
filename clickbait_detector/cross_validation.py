@@ -112,7 +112,7 @@ if __name__ == "__main__":
         metricsFile.write(f'{clf_name},{round(np.mean(auc),3)}+-{round(np.std(auc),3)},{round(np.mean(accuracy),3)}+-{round(np.std(accuracy),3)},{round(np.mean(precision),3)}+-{round(np.std(precision),3)},{round(np.mean(f1_score),3)}+-{round(np.std(f1_score), 3)},{round(np.mean(recall),3)}+-{round(np.std(recall),3)},{round(np.mean(log_loss),3)}+-{round(np.std(log_loss))}\n')
     
         clf.fit(X, y)
-        filenam = f'../models/{clf_name}_model.joblib'
-        joblib.dump(clf, filename)
+        models_file = f'../models/{clf_name}_model.joblib'
+        joblib.dump(clf, models_file)
 
     metricsFile.close()

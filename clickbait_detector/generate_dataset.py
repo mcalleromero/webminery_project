@@ -29,13 +29,14 @@ if __name__ == "__main__":
                 starts_num = preprocess.starts_with_num(title)
                 contains_num = preprocess.contains_num(title)
                 parenthesis = preprocess.has_parenthesis(title)
+                num_stop_words = preprocess.num_stop_words(title)
                 #clean_title = preprocess.clean_text(title, tokenization=True)
 
                 label = 1 #Clickbait
                 if os.path.basename(file.name).split('_')[0] == "guardian":
                     label = 0 #Veridic
 
-                news[contador] = [nwords, question, exclamation, starts_num, contains_num, parenthesis, label]
+                news[contador] = [nwords, question, exclamation, starts_num, contains_num, parenthesis, num_stop_words, label]
                 contador+=1
 
-    pd.DataFrame.from_dict(news, orient='index', columns=['nword', 'question', 'exclamation', 'starts_num', 'contains_num', 'parenthesis', 'label' ]).to_csv(final_file_path, index=False)
+    pd.DataFrame.from_dict(news, orient='index', columns=['nword', 'question', 'exclamation', 'starts_num', 'contains_num', 'parenthesis', 'num_stop_words', 'label' ]).to_csv(final_file_path, index=False)
