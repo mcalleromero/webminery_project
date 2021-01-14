@@ -53,3 +53,12 @@ class Preprocessing:
 
         return title
 
+    def fit_transform(self, title):
+        nwords = self.count_words(title)
+        question = self.has_question(title)
+        exclamation = self.has_exclamation(title)
+        starts_num = self.starts_with_num(title)
+        contains_num = self.contains_num(title)
+        parenthesis = self.has_parenthesis(title)
+
+        return pd.DataFrame({'nword': nwords, 'question': question, 'exclamation': exclamation, 'starts_num': starts_num, 'contains_num': contains_num, 'parenthesis': parenthesis,})
