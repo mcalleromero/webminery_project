@@ -8,6 +8,11 @@ from viralstories_crawler import ViralStoriesSpider
 
 
 def crawl():
+    """This function is mean to extract the news titles from three different online newspapers,
+    which are The Guardian as the veridic news provider, and UpWorthy and ViralStories as the
+    clickbait news providers. The function finally creates three different files, one for each
+    newspaper, where each row is a news' title.
+    """
 
     crawler = CrawlerProcess()
     crawler.crawl(GuardianSpider)

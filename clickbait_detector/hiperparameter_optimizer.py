@@ -19,6 +19,10 @@ from models import SyntheticTextClassifier
 DATA = Path('../data')
 
 if __name__ == "__main__":
+    """This function purpose is to extract the optimized parameters of each model and
+    compare their performances with evaluation metrics such as f1 score, accuracy or
+    the auc from their roc curve.
+    """
     today = date.today().strftime("%d-%m-%Y")
     filename = f'title_dataset_{today}.csv'
     final_file_path = DATA / filename

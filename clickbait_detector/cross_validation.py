@@ -27,6 +27,10 @@ import joblib
 DATA = Path('../data')
 
 if __name__ == "__main__":
+    """This function's purpose is to train each model with their optimized parameters
+    and save them as joblib binary files in the models directory, in order to use them
+    in the future. This method also saves a file within the metrics evaluated are presented.
+    """
     today = date.today().strftime("%d-%m-%Y")
     filename = f'title_dataset_{today}.csv'
     final_file_path = DATA / filename

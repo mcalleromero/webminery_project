@@ -9,6 +9,11 @@ from data_preprocessing import Preprocessing
 DATA = Path('../data')
 
 if __name__ == "__main__":
+    """Function to extract all news from each daily news file from the three newspapers. This
+    function also extracts the features from each news and concatenates them in one single dataset
+    which will be used as the training dataset and to evaluate the metrics of the models performances.
+    """
+
     today = date.today().strftime("%d-%m-%Y")
     filename = f'title_dataset_{today}.csv'
     final_file_path = DATA / filename

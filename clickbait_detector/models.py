@@ -9,6 +9,12 @@ from skopt.space import Real, Categorical, Integer
 from skopt import BayesSearchCV
 
 class SyntheticTextClassifier:
+    """This class is prepared to test several ML classifiers and its parameters
+    with the aim of extracting their optimized ones.
+
+    Returns:
+        [SyntheticTextClassifier]: An instance of the class to test the models and its parameters
+    """
     models = {
         'gradientboosting': (
             GradientBoostingClassifier(), 
