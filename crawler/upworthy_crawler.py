@@ -3,6 +3,8 @@ import time
 import scrapy
 
 class UpWorthySpider(scrapy.Spider):
+    """Specific crawler to extract nes from the UpWorthy online newspaper
+    """
     name = 'UpWorthySpider'
     starting_url_ = "https://www.upworthy.com/"
     sections_ = []
@@ -14,7 +16,7 @@ class UpWorthySpider(scrapy.Spider):
         yield scrapy.Request(url = self.starting_url_, callback = self.parse_sections)
 
     def parse_sections(self, response):
-        """Funcion que se encarga de la extraccion de las paginas de secciones y subsecciones del diario.
+        """Funcion que se encarga de la extraccion de las noticias del diario del diario.
 
         Args:
             response ([requests]): Pagina web a explorar.

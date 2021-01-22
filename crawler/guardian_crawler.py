@@ -3,6 +3,8 @@ import time
 import scrapy
 
 class GuardianSpider(scrapy.Spider):
+    """Specific crawler created to extract news from the The Guardian newspaper
+    """
     name = 'GuardianSpider'
     starting_url_ = "https://www.theguardian.com/world/europe-news"
     sections_ = []

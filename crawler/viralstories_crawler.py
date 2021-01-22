@@ -3,6 +3,8 @@ import time
 import scrapy
 
 class ViralStoriesSpider(scrapy.Spider):
+    """ViralStories crawler created to extract news titles
+    """
     name = 'ViralStoriesSpider'
     starting_url_ = "http://viralstories.in/"
     sections_ = []
