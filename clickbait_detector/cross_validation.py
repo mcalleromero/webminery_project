@@ -113,7 +113,7 @@ if __name__ == "__main__":
             recall.append(metrics.recall_score(y_test, preds))
             log_loss.append(metrics.log_loss(y_test, preds_proba[:,1]))
 
-        metricsFile.write(f'{clf_name},{round(np.mean(auc),3)}+-{round(np.std(auc),3)},{round(np.mean(accuracy),3)}+-{round(np.std(accuracy),3)},{round(np.mean(precision),3)}+-{round(np.std(precision),3)},{round(np.mean(f1_score),3)}+-{round(np.std(f1_score), 3)},{round(np.mean(recall),3)}+-{round(np.std(recall),3)},{round(np.mean(log_loss),3)}+-{round(np.std(log_loss))}\n')
+        metricsFile.write(f'{clf_name},{round(np.mean(auc),3)}+-{round(np.std(auc),3)},{round(np.mean(accuracy),3)}+-{round(np.std(accuracy),3)},{round(np.mean(precision),3)}+-{round(np.std(precision),3)},{round(np.mean(f1_score),3)}+-{round(np.std(f1_score), 3)},{round(np.mean(recall),3)}+-{round(np.std(recall),3)},{round(np.mean(log_loss),3)}+-{round(np.std(log_loss),3)}\n')
     
         clf.fit(X, y)
         models_file = f'../models/{clf_name}_model.joblib'
