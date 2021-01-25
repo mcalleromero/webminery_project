@@ -19,4 +19,4 @@ if __name__ == "__main__":
     clf = joblib.load(f'../models/{clf_name}_model.joblib')
     pred = clf.predict_proba(transformed_headline)
 
-    print(f'El título {headline} tiene un {pred[0,1]*100}% de probabilidades de ser un clickbait.')
+    print(f'El título {headline} tiene un {round(pred[0,1]*100, 2)}% de probabilidades de ser un clickbait.')
